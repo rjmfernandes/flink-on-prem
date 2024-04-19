@@ -340,4 +340,6 @@ exit;
 
 ```shell
 docker compose down -v
+rm -fr data
+rm -fr plugins
 ```
