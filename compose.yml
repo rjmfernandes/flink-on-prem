@@ -1,5 +1,6 @@
 version: '2'
 services:
+  #cp services
   broker:
     image: confluentinc/cp-kafka:${TAG}
     hostname: broker
@@ -83,31 +84,29 @@ services:
       CONTROL_CENTER_MONITORING_INTERCEPTOR_TOPIC_PARTITIONS: 1
       CONFLUENT_METRICS_TOPIC_REPLICATION: 1
       PORT: 9021
-
+  #flink services
   jobmanager:
-    image: flink-confluent:latest
+    build: ./flink
     ports:
       - "8081:8081"
     command: jobmanager
     environment:
       - |
         FLINK_PROPERTIES=
-        jobmanager.rpc.address: jobmanager        
-
+        jobmanager.rpc.address: jobmanager
   taskmanager:
-    image: flink-confluent:latest
+    build: ./flink
     depends_on:
       - jobmanager
     command: taskmanager
-    scale: 1
+    scale: 2
     environment:
       - |
         FLINK_PROPERTIES=
         jobmanager.rpc.address: jobmanager
         taskmanager.numberOfTaskSlots: 10    
-
   sql-client:
-    image: flink-confluent:latest
+    build: ./flink
     command: bin/sql-client.sh
     depends_on:
       - jobmanager
@@ -115,4 +114,4 @@ services:
       - |
         FLINK_PROPERTIES=
         jobmanager.rpc.address: jobmanager
-        rest.address: jobmanager       
+        rest.address: jobmanager  

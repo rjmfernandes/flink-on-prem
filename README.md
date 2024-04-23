@@ -2,13 +2,7 @@
 
 ## Setup
 
-First you will need to create the image:
-
-```shell
-docker build . -t flink-confluent
-```
-
-Now run:
+Run:
 
 ```shell
 docker compose up -d 
@@ -62,6 +56,8 @@ curl -i -X PUT -H "Accept:application/json" -H  "Content-Type:application/json" 
 ```
 
 Open http://localhost:9021 and check cluster is healthy including Kafka Connect.
+
+You can also check Flink Dashboard at http://localhost:8081/.
 
 ## Flink SQL
 
